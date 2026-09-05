@@ -1,0 +1,101 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:AudioPlayer.ViewModels"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="AudioPlayer.Playlist">
+  <Border Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Background="#D4D0C8" BorderBrush="#808080" BorderThickness="0,0,1,0" Padding="10">
+        <Grid RowDefinitions="Auto, Auto, *, Auto">
+            
+            <StackPanel Grid.Row="0" Spacing="5" Margin="0,0,0,15">
+                <TextBlock Text="KÖNYVTÁR" FontWeight="Bold" Foreground="#333" FontSize="11"/>
+                <Button Content="Minden Zene" 
+                        Classes="ClassicBtn" 
+                        HorizontalAlignment="Left" 
+                        Width="150"
+                        HorizontalContentAlignment="Center"
+                        Command="{Binding ShowAllMusicCommand}"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1" Spacing="5" Margin="0,0,0,15">
+                <TextBlock Text="ÚJ LEJÁTSZÁSI LISTA" FontWeight="Bold" Foreground="#333" FontSize="11"/>
+                
+                <Button Content="➕Új lista létrehozása" 
+                        Classes="ClassicBtn" 
+                        Width="200"
+                        HorizontalAlignment="Left"
+                        HorizontalContentAlignment="Center"
+                        Command="{Binding ShowAddListCommand}"
+                        IsVisible="{Binding !IsAddingList}"/>
+
+                <Grid ColumnDefinitions="*, Auto, Auto" IsVisible="{Binding IsAddingList}">
+                    <TextBox Grid.Column="0" Text="{Binding ListName}" Classes="ClassicInput" Watermark="Név..." Margin="0,0,5,0">
+						<TextBox.KeyBindings>
+							<KeyBinding Gesture="Enter" Command="{Binding ConfirmAddListCommand}"/>
+                        </TextBox.KeyBindings>
+                    </TextBox>
+                    <Button Grid.Column="1" Content="Hozzáadás" HorizontalContentAlignment="Center" Classes="ClassicBtn" Command="{Binding ConfirmAddListCommand}" Margin="0,0,2,0"/>
+                    <Button Grid.Column="2" Content="X" HorizontalContentAlignment="Center" Classes="ClassicBtn" Command="{Binding CancelAddListCommand}"/>
+                </Grid>
+            </StackPanel>
+
+            <Grid Grid.Row="2" RowDefinitions="Auto, *">
+        <TextBlock Grid.Row="0" Text="LEJÁTSZÁSI LISTÁK" FontWeight="Bold" Foreground="#333" FontSize="11" Margin="0,0,0,5"/>
+        <ListBox Grid.Row="1" Classes="ClassicList" 
+                 ItemsSource="{Binding PlayLists}" 
+                 SelectedItem="{Binding SelectedPlayList}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}" Padding="2"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+
+            <Border Grid.Row="3" Background="#EAE8E3" BorderBrush="#A0A0A0" BorderThickness="1" Margin="0,10,0,0" Padding="10"
+                    IsVisible="{Binding !IsAllMusicActive}">
+                <StackPanel Spacing="8">
+                    <TextBlock Text="KIVÁLASZTOTT LISTA MŰVELETEI:" FontSize="10" FontWeight="Bold" Foreground="#555"/>
+                    
+                    <Grid>
+                        <TextBlock Text="{Binding SelectedPlayList.Name}" FontSize="14" FontWeight="Bold" TextWrapping="Wrap"
+                                   IsVisible="{Binding !IsRenamingList}"/>
+                        <Grid ColumnDefinitions="*, Auto" IsVisible="{Binding IsRenamingList}">
+                            <TextBox Grid.Column="0" Text="{Binding TempListName}" Classes="ClassicInput">
+								<TextBox.KeyBindings>
+									<KeyBinding Gesture="Enter" Command="{Binding ConfirmRenameCommand}"/>
+                                </TextBox.KeyBindings>
+                            </TextBox>
+                            <Button Grid.Column="1" Content="OK" HorizontalContentAlignment="Center" Command="{Binding ConfirmRenameCommand}" Classes="ClassicBtn" Margin="5,0,0,0"/>
+                        </Grid>
+                    </Grid>
+                    
+                    <Button Content="➕ Fájlok Hozzáadása" 
+                            Classes="ClassicBtn" 
+                            HorizontalAlignment="Stretch" 
+                            HorizontalContentAlignment="Center" 
+                            Click="GetFileAndInit" 
+                            Background="#C8E6C9"
+                            />
+                    
+                    <Grid ColumnDefinitions="*, *">
+                        <Button Grid.Column="0" Content="Átnevezés" 
+                                Classes="ClassicBtn" Margin="0,0,2,0" 
+                                HorizontalAlignment="Stretch" 
+                                Command="{Binding StartRenameCommand}"
+                                HorizontalContentAlignment="Center"/>
+                        
+                        <Button Grid.Column="1" Content="Törlés" 
+                                Classes="ClassicBtn" Foreground="#D32F2F" 
+                                Margin="2,0,0,0" 
+                                HorizontalAlignment="Stretch" 
+                                Command="{Binding DeleteListCommand}"
+                                HorizontalContentAlignment="Center"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Border>
+</UserControl>

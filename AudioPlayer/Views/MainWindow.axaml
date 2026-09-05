@@ -1,0 +1,65 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:audioplayer="using:AudioPlayer"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:AudioPlayer.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="using:AudioPlayer"
+        mc:Ignorable="d" d:DesignWidth="1050" d:DesignHeight="700"
+        x:Class="AudioPlayer.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="AudioPlayer2000"
+        WindowStartupLocation="CenterScreen"
+        Background="#D4D0C8" 
+        RequestedThemeVariant="Light"> 
+    
+    <Window.Styles>
+        <Style Selector="Button.ClassicBtn, ToggleButton.ClassicBtn">
+            <Setter Property="Background" Value="#E0DFE3"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="BorderBrush" Value="#808080"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="0"/> 
+            <Setter Property="Padding" Value="8,4"/>
+        </Style>
+        <Style Selector="Button.ClassicBtn:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#F0F0F0"/>
+        </Style>
+        <Style Selector="ListBox.ClassicList">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="BorderBrush" Value="#808080"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="CornerRadius" Value="0"/>
+        </Style>
+        <Style Selector="TextBox.ClassicInput">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#808080"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="CornerRadius" Value="0"/>
+            <Setter Property="Foreground" Value="Black"/>
+        </Style>
+        <Style Selector="Menu">
+			<Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="0,0,0,2"/>
+        </Style>
+    </Window.Styles>
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+<Grid ColumnDefinitions="280, *" RowDefinitions="Auto, *, 100">
+
+    <audioplayer:Menubar Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
+
+    <audioplayer:Playlist Grid.Row="1" Grid.Column="0" Grid.RowSpan="2"/>
+
+    <audioplayer:ListView Grid.Row="1" Grid.Column="1"/>
+
+    <audioplayer:PlayStatus Grid.Row="2" Grid.Column="1"/>
+
+</Grid>
+</Window>

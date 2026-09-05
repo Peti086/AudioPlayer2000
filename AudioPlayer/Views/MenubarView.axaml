@@ -1,0 +1,44 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:AudioPlayer.ViewModels"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d" d:DesignWidth="800"
+             x:Class="AudioPlayer.Menubar">
+  
+  <UserControl.Resources>
+      <CornerRadius x:Key="OverlayCornerRadius">0</CornerRadius>
+  </UserControl.Resources>
+
+    <UserControl.Styles>
+        <Style Selector="Menu">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Height" Value="20"/>
+        </Style>
+    </UserControl.Styles>
+
+  <Grid>
+      <Menu>
+        
+        <MenuItem Header="_Média">
+  <MenuItem Header="Fájl _Megnyitása..." HotKey="Ctrl+O" InputGesture="Ctrl+O" Click="GetFileAndInit"/>
+  <MenuItem Header="_Kilépés" HotKey="Ctrl+Q" InputGesture="Ctrl+Q" Command="{Binding CloseCommand}"/>
+</MenuItem>
+
+<MenuItem Header="_Lejátszás">
+  <MenuItem Header="_Lejátszás / Szüneteltetés" HotKey="Ctrl+Space" InputGesture="Ctrl+Space" Command="{Binding PausePlaySongCommand}"/>
+  <MenuItem Header="_Állj" HotKey="Ctrl+S" InputGesture="Ctrl+S" Command="{Binding StopCommand}"/>
+  <MenuItem Header="_Előző" HotKey="Ctrl+P" InputGesture="Ctrl+P" Command="{Binding PreviousSongCommand}"/>
+  <MenuItem Header="_Következő" HotKey="Ctrl+N" InputGesture="Ctrl+N" Command="{Binding NextSongCommand}"/>
+</MenuItem>
+
+<MenuItem Header="_Sound">
+  <MenuItem Header="_Hangeszköz" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" Command="{Binding SetDeviceCommand}"/>
+  <MenuItem Header="Hangerő _Növelése" HotKey="Ctrl+Up" InputGesture="Ctrl+Up" Command="{Binding IncreaseVolumeCommand}"/>
+  <MenuItem Header="Hangerő _Csökkentése" HotKey="Ctrl+Down" InputGesture="Ctrl+Down" Command="{Binding DecreaseVolumeCommand}"/>
+</MenuItem>
+          
+      </Menu>
+  </Grid>
+</UserControl>

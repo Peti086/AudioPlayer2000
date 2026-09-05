@@ -1,0 +1,77 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:vm="using:AudioPlayer.ViewModels"
+             x:DataType="vm:MainWindowViewModel"
+             x:Class="AudioPlayer.ListView">
+
+    <Border Grid.Row="0" Grid.Column="1" Background="#FFFFFF" Padding="10">
+        <Grid RowDefinitions="Auto, Auto, *">
+                
+            <Border Grid.Row="0" Background="#F0F0F0" BorderBrush="#CCC" BorderThickness="1" Padding="10" Margin="0,0,0,10">
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <TextBlock Text="Aktuális nézet:" Foreground="#666" FontSize="14" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding SelectedPlayList.Name, FallbackValue='Minden Zene'}" Foreground="Black" FontSize="20" FontWeight="Bold" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Row="1" Background="#E0DFE3" BorderBrush="#CCC" BorderThickness="1,1,1,0" Padding="0,5">
+                <Grid ColumnDefinitions="40, *, 220, 70, 30" Margin="0,0,15,0">
+                    <TextBlock Grid.Column="1" Text="CÍM ÉS ELŐADÓ" FontWeight="Bold" FontSize="11" Foreground="#555" VerticalAlignment="Center" Margin="0,0,20,0"/>
+                    
+                    <TextBlock Grid.Column="2" Text="ALBUM" FontWeight="Bold" FontSize="11" Foreground="#555" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    
+                    <TextBlock Grid.Column="3" Text="HOSSZ" FontWeight="Bold" FontSize="11" Foreground="#555" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </Grid>
+            </Border>
+
+            <ListBox Grid.Row="2" BorderThickness="1"
+                     ItemsSource="{Binding SelectedPlayList.MusicDatas}"
+                     SelectedItem="{Binding SelectedMusic}">
+                
+                <ListBox.Styles>
+                    <Style Selector="ListBoxItem">
+                        <Setter Property="Padding" Value="0,2"/>
+                    </Style>
+                </ListBox.Styles>
+
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid ColumnDefinitions="40, *, 220, 70, 30" Margin="0,2">
+                            
+                            <Button Grid.Column="0" Content="►" Foreground="#888" VerticalAlignment="Center" 
+                                    HorizontalAlignment="Left" Margin="5,0,0,0"
+                                    FontSize="14" Width="25" Height="25" Padding="0" Background="Transparent"
+                                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                                    Command="{Binding $parent[UserControl].((vm:MainWindowViewModel)DataContext).Load}"
+                                    CommandParameter="{Binding FilePath}"/>
+                                
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="0,0,20,0">
+                                <TextBlock Text="{Binding Title}" FontWeight="Bold" FontSize="13" TextTrimming="CharacterEllipsis"/>
+                                <TextBlock Text="{Binding Performer}" Foreground="#555" FontSize="11" TextTrimming="CharacterEllipsis"/>
+                            </StackPanel>
+                                
+                            <TextBlock Grid.Column="2" Text="{Binding Album}" Foreground="#555" 
+                                       VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                       TextTrimming="CharacterEllipsis" MaxWidth="200"/>
+                            
+                            <TextBlock Grid.Column="3" Text="{Binding Length}" Foreground="#555" 
+                                       VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                
+                            <Button Grid.Column="4" Content="X" BorderThickness="0"
+                                    Background="Transparent" Foreground="#D32F2F" FontSize="14" Width="25" Height="25" Padding="0" 
+                                    HorizontalAlignment="Right" Margin="15,0,5,0"
+                                    VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" 
+                                    Command="{Binding $parent[UserControl].((vm:MainWindowViewModel)DataContext).DeleteMusicCommand}" 
+                                    CommandParameter="{Binding}" ToolTip.Tip="Eltávolítás a listából"
+                                    IsVisible="{Binding !$parent[UserControl].((vm:MainWindowViewModel)DataContext).IsAllMusicActive}"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            
+        </Grid>
+    </Border>
+</UserControl>

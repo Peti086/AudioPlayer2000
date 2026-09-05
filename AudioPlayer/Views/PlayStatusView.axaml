@@ -1,0 +1,77 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:AudioPlayer.ViewModels"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="100"
+             x:Class="AudioPlayer.PlayStatus">
+
+    <UserControl.Resources>
+        <CornerRadius x:Key="SliderThumbCornerRadius">0</CornerRadius>
+        <x:Double x:Key="SliderHorizontalThumbWidth">7</x:Double>
+        <x:Double x:Key="SliderHorizontalThumbHeight">15</x:Double>
+    </UserControl.Resources>
+
+    <UserControl.Styles>
+        <Style Selector="ToolTip">
+            <Setter Property="CornerRadius" Value="0"/>
+        </Style>
+
+        <Style Selector="ToggleButton.ClassicBtn:checked /template/ ContentPresenter#PART_ContentPresenter">
+           <Setter Property="Background" Value="#2196F3"/> 
+           <Setter Property="BorderBrush" Value="#1976D2"/>
+           <Setter Property="Foreground" Value="White"/>
+        </Style>
+    </UserControl.Styles>
+
+    <Border Background="#D4D0C8" BorderBrush="#808080" BorderThickness="0,2,0,0" Padding="10">
+        
+        <Grid ColumnDefinitions="220, *, 180" RowDefinitions="Auto, Auto" VerticalAlignment="Center">
+                
+            <Border Grid.Column="0" Grid.RowSpan="2" Background="#D4D0C8" VerticalAlignment="Center">
+                <Grid RowDefinitions="Auto, Auto">
+                    <TextBlock Grid.Row="0" Text="{Binding MusicDatas.Title, FallbackValue='Nincs betöltve média'}" FontWeight="Bold" FontSize="13" TextTrimming="CharacterEllipsis"/>
+                    <TextBlock Grid.Row="1" Text="{Binding MusicDatas.Performer, FallbackValue='Kérem válasszon zenét'}" Foreground="#555" FontSize="11" Margin="0,3,0,0" TextTrimming="CharacterEllipsis"/>
+                </Grid>
+            </Border>
+
+            <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5" Margin="0,0,0,8">
+                <Button Content="|◄" HorizontalContentAlignment="Center" Classes="ClassicBtn" FontSize="14" Width="35" Command="{Binding PreviousSongCommand}" ToolTip.Tip="Előző"/>
+                
+                <Button Content="{Binding PlayPauseIcon}" HorizontalContentAlignment="Center" Classes="ClassicBtn" FontSize="14" FontWeight="Bold" Width="30" Command="{Binding PausePlaySongCommand}" ToolTip.Tip="Lejátszás / Szünet"/>
+                
+                <Button Content="■" HorizontalContentAlignment="Center" Classes="ClassicBtn" FontSize="14" Width="30" Command="{Binding StopCommand}" ToolTip.Tip="Leállítás"/>
+                
+                <ToggleButton Classes="ClassicBtn" Width="30" Height="27" Padding="0,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsChecked="{Binding IsLoopEnabled}" ToolTip.Tip="Lejátszás ismétlése">
+                    <Image Source="/Assets/loopIcon.png" Width="17" Height="17"/>
+                </ToggleButton>
+                
+                <ToggleButton Classes="ClassicBtn" Width="30" Height="27" Padding="0,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsChecked="{Binding IsShuffleEnabled}" ToolTip.Tip="A zenék véletlenszerű sorrendű lejátszása">
+                    <Image Source="/Assets/shuffleIcon.png" Width="17" Height="17"/>
+                </ToggleButton>
+                
+                <Button Content="►|" HorizontalContentAlignment="Center" Classes="ClassicBtn" FontSize="14" Width="35" Command="{Binding NextSongCommand}" ToolTip.Tip="Következő"/>
+            </StackPanel>
+
+            <Grid Grid.Column="1" Grid.Row="1" ColumnDefinitions="Auto, *, Auto">
+                <TextBlock Grid.Column="0" Text="{Binding CurrentTime, FallbackValue='-:--'}" Foreground="Black" FontSize="11" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                <Slider Grid.Column="1" x:Name="PositionSlider" Value="{Binding CurrentPosition}" Maximum="{Binding MaxPosition}" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="2" Text="{Binding TotalTime, FallbackValue='-:--'}" Foreground="Black" FontSize="11" VerticalAlignment="Center" Margin="10,0,0,0"/>
+            </Grid>
+
+            <StackPanel Grid.Column="2" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Spacing="5">
+                <TextBlock VerticalAlignment="Center" Margin="0,0,5,0">
+					<InlineUIContainer>
+                         <Image Source="/Assets/speakerIcon.png" Width="16" Height="16" Margin="0,0,0,-3"/>
+                    </InlineUIContainer>
+                </TextBlock>
+                
+                <Slider Value="{Binding Volume}" Minimum="0" Maximum="1" Width="80" VerticalAlignment="Center"/>
+                
+                <TextBlock Text="{Binding Volume, StringFormat='{}{0:P0}', FallbackValue='100%'}" Foreground="Black" FontSize="11" VerticalAlignment="Center" Width="35" TextAlignment="Right"/>
+            </StackPanel>
+
+        </Grid>
+    </Border>
+</UserControl>
